@@ -1,0 +1,69 @@
+name: CajuBeneficiosApi - OnPush
+
+on:
+    push:
+        branches:
+            - "**"
+
+    workflow_call:
+    workflow_dispatch:
+
+jobs:
+    Tests:
+        runs-on: ubuntu-22.04
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v4
+
+          - name: Install Poetry
+            run: |
+                pipx install poetry
+
+          - name: Install Python
+            uses: actions/setup-python@v5
+            with:
+                cache: poetry
+                cache-dependency-path: poetry.lock
+                python-version: "3.12.3"
+
+          - name: Install Dependencies
+            run: |
+                make dependencies
+
+          - name: Install Docker Compose
+            run: |
+                sudo apt-get update
+                sudo apt-get install docker-compose
+
+          - name: Install Database
+            run: |
+                make database
+
+          - name: Tests
+            run: |
+                make tests
+
+    CodeConvention:
+        runs-on: ubuntu-22.04
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v4
+
+          - name: Install Poetry
+            run: |
+                pipx install poetry
+
+          - name: Install Python
+            uses: actions/setup-python@v5
+            with:
+                cache: poetry
+                cache-dependency-path: poetry.lock
+                python-version: "3.12.3"
+
+          - name: Install Dependencies
+            run: |
+                make dependencies
+
+          - name: Code Convention
+            run: |
+                make code-convention github=true

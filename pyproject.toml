@@ -1,0 +1,107 @@
+[tool.poetry]
+name = "caju-beneficios-api"
+version = "1.0.2"
+description = "Caju Benefícios Api"
+authors = ["RempelOliveira <rempel.oliveira@gmail.com>"]
+readme = "README.md"
+packages = [{include = "api"}]
+
+[tool.poetry.dependencies]
+python = "^3.12.3"
+fastapi = "^0.111.0"
+pyjwt = "^2.8.0"
+prettyconf = "^2.2.1"
+requests = "^2.32.2"
+inflection = "^0.5.1"
+aiohttp = "^3.9.5"
+debugpy = "^1.8.1"
+uvicorn = {extras = ["standard"], version = "^0.30.0"}
+gunicorn = "^22.0.0"
+beanie = "^1.27.0"
+pydantic-mongo = "^2.3.0"
+prometheus-fastapi-instrumentator = "^7.0.0"
+pymongo = "4.8"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.5"
+isort = "^5.13.2"
+pytest-cov = "^5.0.0"
+pytest-asyncio = "^0.23.7"
+faker = "^30.8.0"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+python_files = ["*.py"]
+python_classes = ["Test*"]
+python_functions = ["*test"]
+addopts = "--tb=native --cov-report=term-missing --cov=."
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.coverage.report]
+omit = ["tests/*", "seeds/*", "*/__init__.py"]
+fail_under = 80
+
+[tool.ruff]
+lint.select = ["ALL"]
+indent-width = 4
+line-length = 128
+lint.ignore = [
+    "D",
+    "I",
+    "B004",
+    "B009",
+    "N802",
+    "N815",
+    "E722",
+    "FA100",
+    "FA102",
+    "PT004",
+    "PT009",
+    "PT013",
+    "ANN101",
+    "ANN102",
+    "BLE001",
+    "COM812",
+    "TCH001",
+    "PLW2901"
+]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = [
+    "fastapi.Depends",
+    "fastapi.params.Depends",
+    "fastapi.Query",
+    "fastapi.params.Query"
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/**/*.py" = [
+    "S101"
+]
+
+[tool.ruff.lint.pylint]
+max-args = 3
+max-returns = 4
+
+[tool.isort]
+indent = 4
+line_length = 128
+multi_line_output = 2
+include_trailing_comma = false
+force_grid_wrap = 0
+ensure_newline_before_comments = true
+remove_redundant_aliases = true
+lines_between_types = 1
+lines_after_imports = 2
+length_sort = true
+src_paths = ["api", "tests"]
+
+sections = [
+    "THIRDPARTY",
+    "FIRSTPARTY"
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

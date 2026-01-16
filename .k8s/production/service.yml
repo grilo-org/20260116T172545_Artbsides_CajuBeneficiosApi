@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: caju-beneficios-api-service
+    namespace: production-apps
+spec:
+    selector:
+        app: caju-beneficios-api
+    type: LoadBalancer
+    ports:
+      - name: http
+        port: 8082
+        protocol: TCP
+        targetPort: 8000
